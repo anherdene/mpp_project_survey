@@ -34,10 +34,6 @@ services:
       - springappserver
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_WS_URL=springappserver
-      - REACT_APP_WS_PORT=8080
 networks:
   mt-network:
     driver: bridge

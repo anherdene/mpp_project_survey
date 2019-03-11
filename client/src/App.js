@@ -8,8 +8,9 @@ import {Route, withRouter} from 'react-router-dom';
 import auth0Client from './Auth';
 import AdminSurveys from "./components/AdminSurveys/AdminSurveys";
 import AdminSurvey from "./components/AdminSurvey/AdminSurvey";
-import AdminQuestion from "./components/AdminQuestion/AdminQuestion";
 import Login from "./components/Login/Login";
+import SignUp from "./components/SignUp/SignUp";
+import jwtAuth from "./AuthService";
 
 class App extends Component {
 
@@ -24,6 +25,14 @@ class App extends Component {
         if (this.props.location.pathname === '/callback') {
             this.setState({checkingSession:false});
             return;
+        }
+
+        if (jwtAuth.loggedIn()) {
+            try {
+                await jwtAuth.getUserProfile();
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         try {
@@ -46,6 +55,7 @@ class App extends Component {
                               {/*checkingSession={this.state.checkingSession} />*/}
                 <Route exact path='/callback' component={Callback}/>
                 <Route exact path='/login' component={Login}/>
+                <Route exact path='/signup' component={SignUp}/>
                 <SecuredRoute path='/new-survey'
                               history={this.props.history}
                               component={NewSurvey}

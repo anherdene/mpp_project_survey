@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import auth0Client from '../../Auth';
 import AdminSideNav from "../AdminSideNav/AdminSideNav";
-import Questions from "../Questions/Questions";
-import AdminQuestion from "../AdminQuestion/AdminQuestion";
 import AdminQuestions from "../AdminQuestions/AdminQuestions";
 import NavBar from "../NavBar/NavBar";
 import {fetchSurvey} from "../../api";
@@ -68,7 +66,7 @@ class AdminSurvey extends Component {
                         <p className="lead">{survey.description}</p>
                         <hr className="my-4" />
                         {/*<Questions/>*/}
-                        <AdminQuestions/>
+                        <AdminQuestions children={survey}/>
                     </div>
                 </div>
             </div>

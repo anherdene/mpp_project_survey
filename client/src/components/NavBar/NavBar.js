@@ -2,7 +2,6 @@ import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import jwtAuth from "../../AuthService";
 
-
 function NavBar(props) {
     const signOut = () => {
         jwtAuth.logout();
@@ -23,7 +22,7 @@ function NavBar(props) {
             {
                 jwtAuth.loggedIn() &&
                 <div>
-                    <label className="mr-2 text-white">User</label>
+                    <label className="mr-2 text-white">{localStorage.username}</label>
                     <button className="btn btn-dark" onClick={() => {signOut()}}>Sign Out</button>
                 </div>
             }

@@ -10,7 +10,8 @@ class AuthService {
 
     login(username, password) {
         // Get a token from api server using the fetch api
-        return this.fetch(`${this.domain}/auth/signin`, {
+        localStorage.clear();
+        return this.fetch(`${this.domain}/api/auth/signin`, {
             method: 'POST',
             body: JSON.stringify({
                 username,
@@ -62,13 +63,29 @@ class AuthService {
         return decode(this.getToken());
     }
 
+    getUserProfile() {
+        return this.fetch(`${this.domain}/api/user/me`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.accessToken
+            }
+        }).then(res => {
+            localStorage.setItem("username", res.username);
+            let userRole = "admin";
+            if (res.roles.length === 1) {
+                userRole = "user";
+            }
+            localStorage.setItem("role", userRole);
+            return res.data
+        });
+    }
+
 
     fetch(url, options) {
         // performs api calls sending the required authentication headers
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        }
+        };
 
         // Setting Authorization header
         // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx

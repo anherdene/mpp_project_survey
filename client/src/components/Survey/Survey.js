@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import auth0Client from '../../Auth';
 import Questions from "../Questions/Questions";
-import {fetchSurvey} from "../../api";
+import {fetchSurvey, submitSurveyAnswer} from "../../api";
 import NavBar from "../NavBar/NavBar";
 
 class Survey extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             survey: null
         };
@@ -19,23 +18,23 @@ class Survey extends Component {
 
     async componentDidMount() {
         await this.refreshQuestion();
-        await this.getUserData();
+        // await this.getUserData();
     }
 
-    async getUserData() {
-        const user = (await axios.get(`http://localhost:8081/user`)).data;
-        this.setState({
-            user,
-        })
-    }
+    // async getUserData() {
+    //     const user = (await axios.get(`http://localhost:8081/user`)).data;
+    //     this.setState({
+    //         user,
+    //     })
+    // }
 
     async refreshQuestion() {
         const { match: { params } } = this.props;
-        console.log(this.props);
+        // console.log(this.props);
         // const survey = (await axios.get(`http://localhost:8081/${params.surveyId}`)).data;
         const survey = await fetchSurvey(params.surveyId);
-        const questions = survey.questions;
-        console.log(questions);
+        // const questions = survey.questions;
+        // console.log(questions);
         this.setState({
             survey
         });
@@ -60,7 +59,7 @@ class Survey extends Component {
     }
 
     myCallback = (dataFromChild) => {
-        console.log(dataFromChild);
+        submitSurveyAnswer(dataFromChild);
     };
 
     render() {

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import NavBar from "../NavBar/NavBar";
+import {fetchSurveys} from "../../api";
+import {FileUploader} from "./AdminFileUploader";
 
 class AdminSurveys extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class AdminSurveys extends Component {
     }
 
     async componentDidMount() {
-        const surveys = (await axios.get('http://localhost:8081/')).data;
+        const surveys = (await fetchSurveys());
         this.setState({
             surveys,
         });
@@ -25,6 +26,7 @@ class AdminSurveys extends Component {
                 <NavBar />
             <div className="container">
                 <div className="row">
+                    <FileUploader />
                     <Link to="/new-survey">
                         <div className="card text-white bg-secondary mb-3">
                             <div className="card-header">Create survey</div>
@@ -40,7 +42,7 @@ class AdminSurveys extends Component {
                             <div key={survey.id} className="col-sm-12 col-md-4 col-lg-3">
                                 <Link to={`/manage/${survey.id}`}>
                                     <div className="card text-white bg-success mb-3">
-                                        <div className="card-header">Questions: {survey.answers}</div>
+                                        <div className="card-header">Questions: {survey.qcount}</div>
                                         <div className="card-body">
                                             <h4 className="card-title">{survey.title}</h4>
                                             <p className="card-text">{survey.description}</p>

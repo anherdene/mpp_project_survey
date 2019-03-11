@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './Login.css';
+import './SignUp.css';
 import jwtAuth from "../../AuthService";
+import {createUser} from "../../api";
 
-class Login extends Component {
+class SignUp extends Component {
     constructor(){
         super();
         this.handleChange = this.handleChange.bind(this);
@@ -11,28 +12,15 @@ class Login extends Component {
     }
 
     componentWillMount(){
-        if(jwtAuth.loggedIn()){
-            console.log("asdasdasdasd");
-            try {
-                jwtAuth.getUserProfile().then( res => {
-                    console.log(res);
-                    if (localStorage.role === "user") {
-                    this.props.history.replace('/');
-                } else if (localStorage.role === "admin") {
-                    this.props.history.replace('/admin');
-                }});
-
-            } catch (e) {
-                console.log(e);
-            }
-        }
+        if(jwtAuth.loggedIn())
+            this.props.history.replace('/');
     }
 
     render() {
         return (
             <div className="center">
                 <div className="card">
-                    <h1>Login</h1>
+                    <h1>Sign Up</h1>
                     <form onSubmit={this.handleFormSubmit}>
                         <input
                             className="form-item"
@@ -67,10 +55,10 @@ class Login extends Component {
         )
     }
 
-    handleFormSubmit(e){
+    async handleFormSubmit(e){
         e.preventDefault();
 
-        jwtAuth.login(this.state.username,this.state.password)
+        await createUser(this.state.username,this.state.password)
             .then(res =>{
                 this.props.history.replace('/');
             })
@@ -80,4 +68,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default SignUp;

@@ -1,0 +1,48 @@
+.admin-sidebar {
+    padding: 40px;
+    margin-right:20px;
+}
+
+.admin-sidebar ul {
+    padding-top:15px;
+}
+
+.admin-sidebar ul li {
+    padding-top:15px;
+}
+
+.admin-sidebar ul li span {
+    padding-left:5px;
+}
+
+.question-rating {
+    float: right;
+}
+
+.question-required {
+    color: orangered;
+}
+
+.answer-group {
+    padding: 15px;
+}
+
+.answer-group .custom-radio {
+    margin-top:5px;
+}
+
+.btn-edit {
+    color: green;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 12px;
+}
+
+.btn-delete {
+    color: red;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 12px;
+}
+
+.container {
+    margin-top: 100px;
+}

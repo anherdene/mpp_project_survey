@@ -52,8 +52,8 @@ public class SurveyService {
      */
     public void loadFromBatch(List<BatchModel> batchModels,String title,String desc){
         Survey survey = new Survey();
-        survey.setTitle("test");
-        survey.setDescription("dfesc");
+        survey.setTitle(title);
+        survey.setDescription(desc);
         for(BatchModel batchModel:batchModels){
             Question question = new Question();
             question.setContent(batchModel.getQuestion());

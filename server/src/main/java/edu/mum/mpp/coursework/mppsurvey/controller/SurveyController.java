@@ -1,11 +1,11 @@
 package edu.mum.mpp.coursework.mppsurvey.controller;
 
 import edu.mum.mpp.coursework.mppsurvey.entity.Survey;
-import edu.mum.mpp.coursework.mppsurvey.model.AnswerBody;
-import edu.mum.mpp.coursework.mppsurvey.model.AnswerRequest;
-import edu.mum.mpp.coursework.mppsurvey.model.AnswerSubmitResponse;
-import edu.mum.mpp.coursework.mppsurvey.model.SurveySummary;
+import edu.mum.mpp.coursework.mppsurvey.exception.AppException;
+import edu.mum.mpp.coursework.mppsurvey.model.*;
 import edu.mum.mpp.coursework.mppsurvey.repository.SurveyRepository;
+import edu.mum.mpp.coursework.mppsurvey.repository.UserQuestionAnswerRepository;
+import edu.mum.mpp.coursework.mppsurvey.repository.UserQuestionRatingRepository;
 import edu.mum.mpp.coursework.mppsurvey.security.CurrentUser;
 import edu.mum.mpp.coursework.mppsurvey.security.UserPrincipal;
 import edu.mum.mpp.coursework.mppsurvey.service.SurveyService;
@@ -32,6 +32,12 @@ public class SurveyController{
     @Autowired
     SurveyRepository surveyRepository;
 
+    @Autowired
+    UserQuestionAnswerRepository userQuestionAnswerRepository;
+
+    @Autowired
+    UserQuestionRatingRepository userQuestionRatingRepository;
+
     @GetMapping("/index")
     public ResponseEntity index(){
         PageRequest pageRequest = PageRequest.of(0,10);
@@ -45,6 +51,18 @@ public class SurveyController{
     }
 
 
+    @GetMapping("/getStatRating/{id}")
+    public ResponseEntity getStatRating( @PathVariable Long id){
+        Survey survey= surveyRepository.findById(id).orElseThrow(() -> new AppException("Survey not found"));
+        List<QuestionAverageRating> ratings = userQuestionRatingRepository.countByQuestionGroupBySurveyId(survey.getId());
+        return ResponseEntity.ok(ratings);
+    }
+    @GetMapping("/getStatChoice/{id}")
+    public ResponseEntity getStatChoice( @PathVariable Long id){
+        Survey survey= surveyRepository.findById(id).orElseThrow(() -> new AppException("Survey not found"));
+        List<QuestionChoiceCount> answers = userQuestionAnswerRepository.countByQuestionGroupBySurveyId(survey.getId());
+        return ResponseEntity.ok(answers);
+    }
     @PostMapping("/submitAnswer")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity submitAnswer(@CurrentUser UserPrincipal currentUser,@Valid @RequestBody AnswerBody answers){

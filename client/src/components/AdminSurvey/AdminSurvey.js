@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
-import auth0Client from '../../Auth';
 import AdminSideNav from "../AdminSideNav/AdminSideNav";
 import AdminQuestions from "../AdminQuestions/AdminQuestions";
 import NavBar from "../NavBar/NavBar";

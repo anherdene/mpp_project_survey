@@ -32,7 +32,7 @@ class AdminQuestionResults extends Component {
                     {survey.questions.map((question, idx) =>(
                         <li>
                             <header>
-                                <div className="question-number">{idx+1}</div>
+                                <div className="question-number">{idx+1}.</div>
                                 <h3>{question.content}</h3>
                                 <h4>Multiple Choice</h4>
                                 <br/>
@@ -101,9 +101,30 @@ class AdminResultDetails extends React.Component{
         const {chartStyle} = {
             float: "left"
         };
+        const {resultStyle} = {
+            float: "right"
+        };
         return (
-            <div style={chartStyle}>
-                <DoughnutChart data={data} options={chartOptions} width="600" height="250"/>
+            <div>
+                <div className="row">
+                <div className="col-md-8" style={chartStyle}>
+                    <DoughnutChart data={data} options={chartOptions} width="400" height="250"/>
+                </div>
+                <div className="col-md-4" style={resultStyle}>
+                    <h3>Results: </h3>
+                    <ul>
+                        {
+                            this.state.question.choices.map((choice, idx) =>(
+                                <li>
+                                    <div>
+                                        {idx+1}. {choice.id}
+                                    </div>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+                </div>
             </div>
         )
     }

@@ -1,6 +1,7 @@
 package edu.mum.mpp.coursework.mppsurvey.repository;
 
 import edu.mum.mpp.coursework.mppsurvey.entity.AppUser;
+import edu.mum.mpp.coursework.mppsurvey.entity.Survey;
 import edu.mum.mpp.coursework.mppsurvey.entity.UserQuestionAnswer;
 import edu.mum.mpp.coursework.mppsurvey.model.QuestionChoiceCount;
 import edu.mum.mpp.coursework.mppsurvey.model.UserSurveyCount;
@@ -22,4 +23,6 @@ public interface UserQuestionAnswerRepository extends JpaRepository<UserQuestion
     List<UserSurveyCount> countByUserGroup();
 
     Long countByUser(AppUser user);
+
+    List<UserQuestionAnswer> findBySurveyAndUser(Survey survey, AppUser user);
 }

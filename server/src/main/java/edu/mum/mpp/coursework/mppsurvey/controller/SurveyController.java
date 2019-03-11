@@ -1,11 +1,14 @@
 package edu.mum.mpp.coursework.mppsurvey.controller;
 
+import edu.mum.mpp.coursework.mppsurvey.entity.AppUser;
 import edu.mum.mpp.coursework.mppsurvey.entity.Survey;
+import edu.mum.mpp.coursework.mppsurvey.entity.UserQuestionAnswer;
 import edu.mum.mpp.coursework.mppsurvey.exception.AppException;
 import edu.mum.mpp.coursework.mppsurvey.model.*;
 import edu.mum.mpp.coursework.mppsurvey.repository.SurveyRepository;
 import edu.mum.mpp.coursework.mppsurvey.repository.UserQuestionAnswerRepository;
 import edu.mum.mpp.coursework.mppsurvey.repository.UserQuestionRatingRepository;
+import edu.mum.mpp.coursework.mppsurvey.repository.UserRepository;
 import edu.mum.mpp.coursework.mppsurvey.security.CurrentUser;
 import edu.mum.mpp.coursework.mppsurvey.security.UserPrincipal;
 import edu.mum.mpp.coursework.mppsurvey.service.SurveyService;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/surveys")
@@ -37,7 +41,8 @@ public class SurveyController{
 
     @Autowired
     UserQuestionRatingRepository userQuestionRatingRepository;
-
+    @Autowired
+    UserRepository userRepository;
     @GetMapping("/index")
     public ResponseEntity index(){
         PageRequest pageRequest = PageRequest.of(0,10);
@@ -50,6 +55,16 @@ public class SurveyController{
         return ResponseEntity.of(optionalSurvey);
     }
 
+    @GetMapping("/get/{id}/answer")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity getSurveyAnswer(@CurrentUser UserPrincipal currentUser,  @PathVariable Long id){
+        Survey survey= surveyRepository.findById(id).orElseThrow(() -> new AppException("Survey not found"));
+        AppUser user = userRepository.findById(currentUser.getId())
+                .orElseThrow(() -> new AppException("User not found"));
+        List<UserQuestionAnswer> answers = userQuestionAnswerRepository.findBySurveyAndUser(survey,user);
+        List<AnswerResponse> responces = answers.stream().map(e-> new AnswerResponse(e.getQuestion().getContent(),Optional.ofNullable(e.getTextAnswer()).orElse(e.getChoice().getContent()))).collect(Collectors.toList());
+        return ResponseEntity.ok(responces);
+    }
 
     @GetMapping("/getStatRating/{id}")
     public ResponseEntity getStatRating( @PathVariable Long id){

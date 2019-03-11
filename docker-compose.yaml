@@ -21,13 +21,13 @@ services:
       - 8087:8080
     volumes:
       - /data/spring
-  react:
-    image: react-image
-    build: ./client
-    command: npm start
-    volumes:
-      - ./client:/usr/app
-    depends_on:
-      - spring
-    ports:
-      - "3000:3000"
+#  react:
+#    image: react-image
+#    build: ./client
+#    command: npm start
+#    volumes:
+#      - ./client:/usr/app
+#    depends_on:
+#      - spring
+#    ports:
+#      - "3000:3000"

@@ -1,26 +1,29 @@
-version: '3'
-
+version : '3'
 services:
-  mysql:
-    image: mysql:latest
-    environment:
-      - MYSQL_ROOT_PASSWORD=root123
-      - MYSQL_DATABASE=survey
-      - MYSQL_USER=survey
-      - MYSQL_PASSWORD=survey
-    ports:
-      - "3306:3306"
-    volumes:
-      - /data/mysql
-  spring:
-    image: spring-image
+  springappserver:
     build: ./server
-    depends_on:
-      - mysql
     ports:
-      - 8087:8080
+      - "8080:8080"
+    networks:
+      - mt-network
     volumes:
       - /data/spring
+    depends_on:
+      - mysqldbserver
+  mysqldbserver:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    networks:
+      - mt-network
+    environment:
+      MYSQL_DATABASE: survey
+      MYSQL_USER: survey
+      MYSQL_PASSWORD: survey
+      MYSQL_ROOT_PASSWORD: survey
+    container_name: survey_mysqldbserver
+    volumes:
+      - /data/mysql
 #  react:
 #    image: react-image
 #    build: ./client
@@ -31,3 +34,6 @@ services:
 #      - spring
 #    ports:
 #      - "3000:3000"
+networks:
+  mt-network:
+    driver: bridge

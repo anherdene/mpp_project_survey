@@ -9,7 +9,7 @@
 # dependencies
 /client/node_modules
 /client/package-lock.json
-
+/client/public/lib
 # IDEs and editors
 /.idea
 .project

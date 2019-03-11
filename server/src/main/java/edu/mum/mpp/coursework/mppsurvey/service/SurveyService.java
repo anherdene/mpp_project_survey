@@ -122,19 +122,21 @@ public class SurveyService {
         List<UserQuestionAnswer> questionAnswers = new ArrayList<>();
         for(AnswerRequest answer:answers) {
             Optional<Question> optQuestion = questionRepository.findById(answer.getQuestionId());
-            Optional<Choice> optChoice = choiceRepository.findById(answer.getChoiceId());
+            Optional<Choice> optChoice = choiceRepository.findById(answer.getChoiceId()!=null?answer.getChoiceId():0);
             Optional<Survey> optSurvey = surveyRepository.findById(answer.getSurveyId());
             if (optQuestion.isPresent() && optUser.isPresent() && optSurvey.isPresent()) {
                 UserQuestionAnswer userQuestionAnswer = new UserQuestionAnswer();
-                userQuestionAnswer.setTextAnswer(answer.getAnswerText());
-                userQuestionAnswer.setChoice(optChoice.get());
+                userQuestionAnswer.setTextAnswer(answer.getTextAnswer());
+                if(optChoice.isPresent()) {
+                    userQuestionAnswer.setChoice(optChoice.get());
+                }
                 userQuestionAnswer.setQuestion(optQuestion.get());
                 userQuestionAnswer.setUser(optUser.get());
                 userQuestionAnswer.setSurvey(optSurvey.get());
-
+                userQuestionAnswerRepository.save(userQuestionAnswer);
             }
         }
-        questionAnswers = userQuestionAnswerRepository.saveAll(questionAnswers);
+//        questionAnswers = userQuestionAnswerRepository.saveAll(questionAnswers);
         return questionAnswers.size() ;
     }
 

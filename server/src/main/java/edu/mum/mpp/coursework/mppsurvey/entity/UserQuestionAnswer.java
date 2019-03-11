@@ -20,7 +20,7 @@ public class UserQuestionAnswer extends IdDateAudit {
     @JoinColumn(name="user_id", nullable=false)
     private AppUser user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="choice_id")
     private Choice choice;
 

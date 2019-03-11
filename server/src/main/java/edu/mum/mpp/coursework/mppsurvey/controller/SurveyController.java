@@ -1,6 +1,7 @@
 package edu.mum.mpp.coursework.mppsurvey.controller;
 
 import edu.mum.mpp.coursework.mppsurvey.entity.Survey;
+import edu.mum.mpp.coursework.mppsurvey.model.AnswerBody;
 import edu.mum.mpp.coursework.mppsurvey.model.AnswerRequest;
 import edu.mum.mpp.coursework.mppsurvey.model.AnswerSubmitResponse;
 import edu.mum.mpp.coursework.mppsurvey.model.SurveySummary;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +47,8 @@ public class SurveyController{
 
     @PostMapping("/submitAnswer")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity submitAnswer(@CurrentUser UserPrincipal currentUser,  @RequestBody List<AnswerRequest> answers){
-        int answerCount = surveyService.submitAnswer(answers,currentUser.getId());
+    public ResponseEntity submitAnswer(@CurrentUser UserPrincipal currentUser,@Valid @RequestBody AnswerBody answers){
+        int answerCount = surveyService.submitAnswer(answers.getAnswers(),currentUser.getId());
         return ResponseEntity.ok(new AnswerSubmitResponse("",answerCount,answerCount));
     }
 

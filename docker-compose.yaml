@@ -24,16 +24,16 @@ services:
     container_name: survey_mysqldbserver
     volumes:
       - /data/mysql
-#  react:
-#    image: react-image
-#    build: ./client
-#    command: npm start
-#    volumes:
-#      - ./client:/usr/app
-#    depends_on:
-#      - spring
-#    ports:
-#      - "3000:3000"
+  react:
+    build: ./client
+    volumes:
+      - /data/react
+    networks:
+      - mt-network
+    depends_on:
+      - springappserver
+    ports:
+      - "3000:3000"
 networks:
   mt-network:
     driver: bridge

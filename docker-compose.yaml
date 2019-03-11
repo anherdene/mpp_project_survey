@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: survey
+      MYSQL_ROOT_PASSWORD: survey
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/mysql
+  spring:
+    image: spring-image
+    build: ./server
+    depends_on:
+      - mysql
+    ports:
+      - 8087:8080
+    volumes:
+      - /data/spring
+  react:
+    image: react-image
+    build: ./client
+    command: npm start
+    volumes:
+      - ./client:/usr/app
+    depends_on:
+      - spring
+    ports:
+      - "3000:3000"

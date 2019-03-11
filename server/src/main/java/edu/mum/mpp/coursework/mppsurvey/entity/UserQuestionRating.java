@@ -22,6 +22,8 @@ public class UserQuestionRating extends IdDateAudit {
     @JoinColumn(name="question_id", nullable=false)
     private Question question;
 
+
+
     @Override
     public long getId(){
         return this.id;

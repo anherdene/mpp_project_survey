@@ -1,10 +1,14 @@
 package edu.mum.mpp.coursework.mppsurvey.controller;
 
 import edu.mum.mpp.coursework.mppsurvey.entity.AppUser;
+import edu.mum.mpp.coursework.mppsurvey.entity.UserQuestionAnswer;
 import edu.mum.mpp.coursework.mppsurvey.exception.ResourceNotFoundException;
 import edu.mum.mpp.coursework.mppsurvey.model.UserIdentityAvailability;
 import edu.mum.mpp.coursework.mppsurvey.model.UserProfile;
 import edu.mum.mpp.coursework.mppsurvey.model.UserSummary;
+import edu.mum.mpp.coursework.mppsurvey.repository.QuestionRepository;
+import edu.mum.mpp.coursework.mppsurvey.repository.UserQuestionAnswerRepository;
+import edu.mum.mpp.coursework.mppsurvey.repository.UserQuestionRatingRepository;
 import edu.mum.mpp.coursework.mppsurvey.repository.UserRepository;
 import edu.mum.mpp.coursework.mppsurvey.security.CurrentUser;
 import edu.mum.mpp.coursework.mppsurvey.security.UserPrincipal;
@@ -25,7 +29,11 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserQuestionAnswerRepository userQuestionAnswerRepository;
 
+    @Autowired
+    private UserQuestionRatingRepository userQuestionRatingRepository;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/user/me")
@@ -46,10 +54,10 @@ public class UserController {
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
-//        long pollCount = pollRepository.countByCreatedBy(user.getId());
-//        long voteCount = voteRepository.countByUserId(user.getId());
+        long surveyCount = userQuestionAnswerRepository.countByUser(user);
+        long rating = userQuestionRatingRepository.countByUser(user);
 
-        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), "", null, null, null);
+        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getCreatedAt(), surveyCount, rating);
 
         return userProfile;
     }

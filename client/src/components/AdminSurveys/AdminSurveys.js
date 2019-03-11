@@ -26,7 +26,7 @@ class AdminSurveys extends Component {
                 <NavBar />
             <div className="container">
                 <div className="row">
-                    <FileUploader />
+                    <div className="col-sm-12 col-md-4 col-lg-3">
                     <Link to="/new-survey">
                         <div className="card text-white bg-secondary mb-3">
                             <div className="card-header">Create survey</div>
@@ -36,6 +36,7 @@ class AdminSurveys extends Component {
                             </div>
                         </div>
                     </Link>
+                    </div>
                     {this.state.surveys === null && <p>Loading surveys...</p>}
                     {
                         this.state.surveys && this.state.surveys.map(survey => (

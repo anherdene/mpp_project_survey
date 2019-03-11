@@ -45,4 +45,33 @@
 
 .container {
     margin-top: 100px;
+    max-width: 1440px;
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.question-number {
+    height: 100px;
+    float: left;
+    padding: 0 40px 0 0;
+    font-weight: 700;
+    color: #007bff;
+}
+
+header h3 {
+    font-size: 17px;
+}
+
+header h4 {
+    font-size: 14px;
+    color: #97a1b7;
+}
+
+.sign-up {
+    text-align: center;
+    text-decoration: none;
 }

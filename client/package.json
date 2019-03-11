@@ -5,9 +5,11 @@
   "dependencies": {
     "auth0-js": "^9.10.0",
     "axios": "^0.18.0",
+    "chart.js": "^1.1.1",
     "dotenv": "^6.2.0",
     "jwt-decode": "^2.2.0",
     "react": "^16.8.4",
+    "react-chartjs": "^1.2.0",
     "react-dom": "^16.8.4",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

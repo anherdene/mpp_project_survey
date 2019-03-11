@@ -11,6 +11,7 @@ import AdminSurvey from "./components/AdminSurvey/AdminSurvey";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
 import jwtAuth from "./AuthService";
+import AdminSurveyResults from "./components/AdminSurveyResults/AdminSurveyResults";
 
 class App extends Component {
 
@@ -65,6 +66,7 @@ class App extends Component {
                               history={this.props.history}
                               checkingSession={this.state.checkingSession} />
                 <Route exact path='/manage/:surveyId' component={AdminSurvey}/>
+                <Route exact path='/results/:surveyId' component={AdminSurveyResults}/>
                 {/*<SecuredRoute path='/manage/:surveyId'*/}
                               {/*component={AdminSurvey}*/}
                               {/*checkingSession={this.state.checkingSession} />*/}

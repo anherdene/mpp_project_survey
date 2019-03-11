@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import './Login.css';
 import jwtAuth from "../../AuthService";
+import {Link} from "react-router-dom";
 
 class Login extends Component {
     constructor(){
         super();
         this.handleChange = this.handleChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+
+        this.state = {
+            user: null
+        }
         // this.jwtAuth = new AuthService();
     }
 
     componentWillMount(){
         if(jwtAuth.loggedIn()){
-            console.log("asdasdasdasd");
             try {
                 jwtAuth.getUserProfile().then( res => {
                     console.log(res);
@@ -33,6 +37,9 @@ class Login extends Component {
             <div className="center">
                 <div className="card">
                     <h1>Login</h1>
+                    <Link to="/signup">
+                        <h4 className="sign-up">Sign up</h4>
+                    </Link>
                     <form onSubmit={this.handleFormSubmit}>
                         <input
                             className="form-item"
@@ -72,10 +79,19 @@ class Login extends Component {
 
         jwtAuth.login(this.state.username,this.state.password)
             .then(res =>{
-                this.props.history.replace('/');
+                const {profile} = jwtAuth.getUserProfile();
+
+                this.setState({
+                    user: profile
+                });
+                if (this.state.username === "admin") {
+                    this.props.history.replace('/admin');
+                } else {
+                    this.props.history.replace('/');
+                }
             })
             .catch(err =>{
-                alert(err);
+                alert("Username or password incorrect");
             })
     }
 }

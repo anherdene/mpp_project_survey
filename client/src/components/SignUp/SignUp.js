@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './SignUp.css';
 import jwtAuth from "../../AuthService";
 import {createUser} from "../../api";
+import {Link} from "react-router-dom";
 
 class SignUp extends Component {
     constructor(){
@@ -21,6 +22,9 @@ class SignUp extends Component {
             <div className="center">
                 <div className="card">
                     <h1>Sign Up</h1>
+                    <Link to="/login">
+                        <h4 className="sign-up">Login</h4>
+                    </Link>
                     <form onSubmit={this.handleFormSubmit}>
                         <input
                             className="form-item"
@@ -63,7 +67,7 @@ class SignUp extends Component {
                 this.props.history.replace('/');
             })
             .catch(err =>{
-                alert(err);
+                alert("Username or password incorrect");
             })
     }
 }

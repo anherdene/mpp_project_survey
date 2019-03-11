@@ -60,6 +60,8 @@ class Survey extends Component {
 
     myCallback = (dataFromChild) => {
         submitSurveyAnswer(dataFromChild);
+        alert("Thank you!");
+        this.props.history.replace('/');
     };
 
     render() {
@@ -73,7 +75,7 @@ class Survey extends Component {
             <div className="container">
                 <div className="row">
                     {/*<AdminSideNav/>*/}
-                    <div className="jumbotron col-9">
+                    <div className="jumbotron col-10">
                         <h4 className="survey-title">{survey.title}</h4>
                         <p className="lead">{survey.description}</p>
                         <hr className="my-4" />

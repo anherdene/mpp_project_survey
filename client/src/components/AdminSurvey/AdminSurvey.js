@@ -13,9 +13,6 @@ class AdminSurvey extends Component {
         this.state = {
             survey: null
         };
-
-        this.submitAnswer = this.submitAnswer.bind(this);
-        this.newQuestion = this.newQuestion.bind (this);
     }
 
     async componentDidMount() {
@@ -23,8 +20,9 @@ class AdminSurvey extends Component {
     }
 
     async refreshQuestion() {
-        const { match: { params } } = this.props;
-        console.log(this.props);
+        // const { match: { params } } = this.props;
+        const params = this.props.match.params;
+        // console.log(this.props);
         // const survey = (await axios.get(`http://localhost:8081/${params.surveyId}`)).data;
         const survey = await fetchSurvey(params.surveyId);
         const questions = survey.questions;
@@ -32,24 +30,6 @@ class AdminSurvey extends Component {
         this.setState({
             survey
         });
-    }
-
-    async submitAnswer(answer) {
-        await axios.post(`http://localhost:8081/answer/${this.state.survey.id}`, {
-            answer,
-        }, {
-            headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
-        });
-        await this.refreshQuestion();
-    }
-
-    async newQuestion(question) {
-        await axios.post(`http://localhost:8081/question/${this.state.survey.id}`, {
-            question,
-        }, {
-            headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
-        });
-        await this.refreshQuestion();
     }
 
     render() {

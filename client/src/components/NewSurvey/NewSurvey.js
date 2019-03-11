@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import auth0Client from '../../Auth';
 import axios from 'axios';
 import NavBar from "../NavBar/NavBar";
+import {FileUploader} from "../AdminSurveys/AdminFileUploader";
 
 class NewSurvey extends Component {
     constructor(props) {
@@ -31,16 +32,19 @@ class NewSurvey extends Component {
         this.setState({
             disabled: true,
         });
+        alert("Successfully created survey!");
+        this.props.history.replace('/admin')
 
-        await axios.post('http://localhost:8081', {
-            title: this.state.title,
-            description: this.state.description,
-        }, {
-            headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
-        }).then(response=> {
-            this.props.history.push('/survey/' + response.data.id);
-            console.log(response.data);
-        });
+        // await axios.post('http://localhost:8081', {
+        //     title: this.state.title,
+        //     description: this.state.description,
+        // }, {
+        //     headers: { 'Authorization': `Bearer ${auth0Client.getIdToken()}` }
+        // }).then(response=> {
+        //
+        //     // this.props.history.push('/survey/' + response.data.id);
+        //     // console.log(response.data);
+        // });
 
     }
 
@@ -71,13 +75,20 @@ class NewSurvey extends Component {
                                         <input
                                             disabled={this.state.disabled}
                                             type="text"
-                                            onBlur={(e) => {
+                                            onChange={(e) => {
                                                 this.updateDescription(e.target.value)
                                             }}
                                             className="form-control"
                                             placeholder="Give more context to your survey."
                                         />
                                     </div>
+                                    {(this.state.title !== "" && this.state.description !== "") &&
+                                    <div className="form-group">
+                                        <label htmlFor="exampleInputEmail1">CSV File:</label>
+                                        <FileUploader title={this.state.title} desc={this.state.description}/>
+                                    </div>
+                                    }
+
                                     <button
                                         disabled={this.state.disabled}
                                         className="btn btn-primary"

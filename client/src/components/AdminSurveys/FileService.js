@@ -1,8 +1,9 @@
 import {uploadSurvey} from "../../api";
 
 export class FileService {
-    uploadFileToServer(file){
+    uploadFileToServer(file, title, desc){
         //returns Promise object
-        return uploadSurvey(file);
+        console.log(file);
+        return uploadSurvey(file, title, desc);
     }
 }

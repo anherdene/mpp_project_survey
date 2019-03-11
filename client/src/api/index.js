@@ -24,8 +24,13 @@ export const fetchSurveys = (user) => {
     return fetcher.get(`/api/surveys/index`).then(res => res.data);
 };
 
-export const uploadSurvey = (file) => {
-    return fetcher.post("/admin/uploadFile", file, {
+export const uploadSurvey = (file, title, desc) => {
+    let bodyFormData = new FormData();
+    // bodyFormData.set('name', 'FileName');
+    // bodyFormData.set('desc', 'FileDesc');
+    bodyFormData.append('file', file);
+    return fetcher.post("/admin/uploadFile?title="+title+"&description="+desc, file,
+        {
         headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': 'Bearer ' + localStorage.accessToken
@@ -58,6 +63,11 @@ export const submitQuestionRating = (questionId, rating) => {
             'Authorization': 'Bearer ' + localStorage.accessToken
         }
     }).then(res => res.data);
+};
+
+export const fetchSurveyQuestionResults = (questionId) => {
+    console.log(questionId);
+    return fetcher.get(`/api/surveys/getStatChoice/${questionId}`).then(res => res.data);
 };
 
 // -----------------------------------------

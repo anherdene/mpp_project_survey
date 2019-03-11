@@ -5,7 +5,7 @@ import jwtAuth from "../../AuthService";
 function NavBar(props) {
     const signOut = () => {
         jwtAuth.logout();
-        props.history.replace('/');
+        props.history.replace('/login');
     };
     return (
         <nav className="navbar navbar-dark bg-primary fixed-top">

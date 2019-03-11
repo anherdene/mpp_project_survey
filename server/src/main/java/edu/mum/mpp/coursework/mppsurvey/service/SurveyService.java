@@ -50,7 +50,7 @@ public class SurveyService {
      * load from batch file
      * @param batchModels
      */
-    public void loadFromBatch(List<BatchModel> batchModels){
+    public void loadFromBatch(List<BatchModel> batchModels,String title,String desc){
         Survey survey = new Survey();
         survey.setTitle("test");
         survey.setDescription("dfesc");

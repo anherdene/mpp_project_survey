@@ -26,7 +26,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
+    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,@RequestParam("title") String title,@RequestParam("description") String description) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         logger.info(fileName);
         if(file.getContentType()=="text/csv"){
@@ -34,7 +34,7 @@ public class AdminController {
                     file.getContentType(), file.getSize());
         }
         // save survey
-        int questionCount = adminService.saveToSurvey(file);
+        int questionCount = adminService.saveToSurvey(file,title,description);
         return new UploadFileResponse(fileName, questionCount,
                 file.getContentType(), file.getSize());
     }

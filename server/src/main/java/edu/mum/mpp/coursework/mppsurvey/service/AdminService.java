@@ -25,7 +25,7 @@ public class AdminService {
      * @param file
      * @return
      */
-    public int saveToSurvey(MultipartFile file){
+    public int saveToSurvey(MultipartFile file,String title,String desc){
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         List<BatchModel> records = new ArrayList<>();
@@ -46,7 +46,7 @@ public class AdminService {
 
             }
             // store survey whole
-            surveyService.loadFromBatch(records);
+            surveyService.loadFromBatch(records,title,desc);
 
             return records.size();
         } catch (IOException ex) {
